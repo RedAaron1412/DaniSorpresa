@@ -1,0 +1,20 @@
+{
+  "total_mensajes": 10856,
+  "periodo_inicio": "2025-10-17 09:31:00",
+  "periodo_fin": "2026-01-11 00:51:00",
+  "autores": [
+    "Daniela",
+    "Aaron Choque"
+  ],
+  "emociones_distribucion": {
+    "Neutral": 8987,
+    "Felicidad": 1234,
+    "Tristeza": 298,
+    "Sorpresa": 267,
+    "Enojo": 49,
+    "Miedo": 20,
+    "Disgusto": 1
+  },
+  "dia_mas_feliz": "2025-11-15",
+  "dia_mas_triste": "2025-12-05"
+}

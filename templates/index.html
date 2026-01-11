@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Nuestros Días Especiales</title>
+     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e3f2fd 50%, #f3e5f5 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(179, 229, 252, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(240, 173, 255, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* NAVBAR */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.15);
+            margin-bottom: 20px;
+            padding: 0 10px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            padding: 0;
+            width: 100%;
+            justify-content: space-around;
+        }
+        
+        .nav-tab {
+            padding: 14px 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #8e7cc3;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            text-align: center;
+            flex: 1;
+            white-space: nowrap;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .nav-tab:hover {
+            color: #ff69b4;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.08) 0%, rgba(240, 173, 255, 0.08) 100%);
+            border-radius: 15px;
+        }
+        
+        .nav-tab.active {
+            color: #ff69b4;
+            border-bottom: 3px solid #ffb6c1;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.15) 0%, rgba(240, 173, 255, 0.15) 100%);
+            border-radius: 15px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 50%, #64b5f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 10px rgba(255, 105, 180, 0.2);
+            line-height: 1.3;
+            padding: 0 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .subtitle {
+            color: #8e7cc3;
+            font-size: 1rem;
+            line-height: 1.4;
+            padding: 0 10px;
+            font-weight: 500;
+        }
+        
+        /* COUNTERS */
+        .counters-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .counter-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+            text-align: center;
+            transition: all 0.4s ease;
+            width: 100%;
+            border: 2px solid rgba(255, 182, 193, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .counter-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 182, 193, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .counter-card:hover::before {
+            left: 100%;
+        }
+        
+        .counter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.25);
+            border-color: rgba(255, 182, 193, 0.4);
+        }
+        
+        .counter-card h2 {
+            background: linear-gradient(135deg, #ba68c8 0%, #64b5f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .counter-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+            filter: drop-shadow(2px 2px 8px rgba(255, 105, 180, 0.2));
+        }
+        
+        .counter-date {
+            color: #8e7cc3;
+            font-style: italic;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .counter-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+        
+        .love-message {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 248, 255, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(100, 181, 246, 0.15);
+            margin-bottom: 25px;
+            text-align: center;
+            border-left: 5px solid #64b5f6;
+            border: 2px solid rgba(100, 181, 246, 0.2);
+        }
+        
+        .love-message h3 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .message-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        /* ANÁLISIS */
+        .analysis-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(186, 104, 200, 0.15);
+            margin-bottom: 25px;
+            border: 2px solid rgba(186, 104, 200, 0.15);
+        }
+        
+        .analysis-section h2 {
+            background: linear-gradient(135deg, #ba68c8 0%, #64b5f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        
+        .analysis-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 182, 193, 0.3);
+        }
+        
+        .analysis-header h3 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .analysis-header p {
+            font-size: 0.9rem;
+            color: #8e7cc3;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.8) 0%, rgba(240, 248, 255, 0.8) 100%);
+            padding: 18px;
+            border-radius: 18px;
+            border-left: 5px solid #ba68c8;
+            border: 2px solid rgba(186, 104, 200, 0.2);
+            box-shadow: 0 5px 20px rgba(186, 104, 200, 0.1);
+        }
+        
+        .stats-card h4 {
+            background: linear-gradient(135deg, #ba68c8 0%, #64b5f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .emotion-bar {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .emotion-label {
+            min-width: 80px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .emotion-value {
+            min-width: 50px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #8e7cc3;
+        }
+        
+        .bar-container {
+            flex: 1;
+            height: 18px;
+            background: rgba(230, 230, 250, 0.5);
+            border-radius: 9px;
+            overflow: hidden;
+            min-width: 60px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .bar-fill {
+            height: 100%;
+            border-radius: 9px;
+            transition: width 0.5s ease;
+        }
+        
+        .neutral-bar { background: linear-gradient(90deg, #b0bec5, #cfd8dc); width: 82.8%; }
+        .happy-bar { background: linear-gradient(90deg, #ffb6d9, #ff85c0); width: 11.4%; }
+        .sad-bar { background: linear-gradient(90deg, #c5cae9, #9fa8da); width: 2.7%; }
+        .surprise-bar { background: linear-gradient(90deg, #ffe082, #ffd54f); width: 2.5%; }
+        .angry-bar { background: linear-gradient(90deg, #ffccbc, #ffab91); width: 0.5%; }
+        .fear-bar { background: linear-gradient(90deg, #d1c4e9, #b39ddb); width: 0.2%; }
+        .disgust-bar { background: linear-gradient(90deg, #b2ebf2, #80deea); width: 0.1%; }
+        
+        .author-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .author-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 250, 0.9) 100%);
+            padding: 18px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.12);
+            border: 2px solid rgba(255, 182, 193, 0.25);
+            transition: all 0.3s ease;
+        }
+        
+        .author-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+        }
+        
+        .author-card h4 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .author-card p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            line-height: 1.4;
+            color: #666;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.6) 0%, rgba(240, 248, 255, 0.6) 100%);
+            padding: 18px;
+            border-radius: 18px;
+            margin: 15px 0;
+            border-left: 5px solid #ff69b4;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.1);
+        }
+        
+        .highlight-box h4 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .message-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .message-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            border-left: 4px solid #ba68c8;
+            transition: all 0.3s;
+            box-shadow: 0 3px 12px rgba(186, 104, 200, 0.1);
+        }
+        
+        .message-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 18px rgba(186, 104, 200, 0.18);
+        }
+        
+        .message-item:active {
+            transform: scale(0.98);
+        }
+        
+        .message-header {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            color: #8e7cc3;
+            font-weight: 600;
+        }
+        
+        .message-content {
+            font-style: italic;
+            color: #555;
+            line-height: 1.4;
+            font-size: 0.9rem;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .emoji-score {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .happy-score { color: #ff69b4; }
+        .sad-score { color: #7986cb; }
+        .angry-score { color: #ff8a80; }
+        
+        /* CARTA DE AMOR */
+        .love-letter-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 240, 245, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 182, 193, 0.2);
+        }
+        
+        .love-letter-section h2 {
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        
+        .letter-content {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: left;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.5) 0%, rgba(240, 248, 255, 0.5) 100%);
+            border-radius: 15px;
+            border-left: 5px solid #ba68c8;
+            white-space: pre-line;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            box-shadow: inset 0 2px 10px rgba(186, 104, 200, 0.08);
+        }
+        
+        .letter-signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+            background: linear-gradient(135deg, #ff69b4 0%, #ba68c8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #8e7cc3;
+            font-size: 0.9rem;
+            padding: 15px;
+            font-weight: 500;
+        }
+        
+        .heart {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.3); }
+            10% { transform: scale(1.1); }
+            15% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        .trend-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(186, 104, 200, 0.12);
+            border: 2px solid rgba(186, 104, 200, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .trend-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(186, 104, 200, 0.2);
+        }
+        
+        .trend-card h5 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #ba68c8 0%, #64b5f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .trend-card p {
+            font-size: 0.8rem;
+            line-height: 1.3;
+            color: #666;
+        }
+        
+        .icon-svg {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 240, 245, 0.5);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ffb6d9 0%, #ba68c8 100%);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #ff69b4 0%, #9c27b0 100%);
+        }
+        
+        /* MEDIA QUERIES */
+        @media (min-width: 481px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .nav-tab {
+                padding: 16px 15px;
+                font-size: 1rem;
+            }
+            
+            .counter-number {
+                font-size: 3.2rem;
+            }
+            
+            .trends-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.6rem;
+            }
+            
+            .counters-container {
+                flex-direction: row;
+                gap: 20px;
+            }
+            
+            .counter-card {
+                padding: 30px 25px;
+            }
+            
+            .counter-number {
+                font-size: 3.8rem;
+            }
+            
+            .stats-grid {
+                flex-direction: row;
+            }
+            
+            .author-stats {
+                flex-direction: row;
+            }
+            
+            .message-header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-tabs {
+                gap: 10px;
+            }
+            
+            .nav-tab {
+                padding: 18px 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1100px;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .counter-number {
+                font-size: 4.2rem;
+            }
+            
+            .analysis-section h2 {
+                font-size: 2rem;
+            }
+            
+            .love-letter-section {
+                padding: 40px 35px;
+            }
+            
+            .love-letter-section h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .nav-tab {
+                padding: 12px 5px;
+                font-size: 0.85rem;
+            }
+            
+            .counter-number {
+                font-size: 2.4rem;
+            }
+            
+            .counter-card h2 {
+                font-size: 1.2rem;
+            }
+            
+            .trends-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .touch-feedback:active {
+            opacity: 0.8;
+        }
+        
+        input, select, textarea {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nuestra Historia de Amor <span class="heart">❤️</span></h1>
+            <p class="subtitle">Cada día a tu lado es un regalo del universo</p>
+        </header>
+        
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <ul class="nav-tabs">
+                    <li class="nav-tab active touch-feedback" data-tab="resumen">📊 Resumen</li>
+                    <li class="nav-tab touch-feedback" data-tab="para-ti">💌 Para Ti</li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- PESTAÑA RESUMEN -->
+        <div id="resumen" class="tab-content active">
+            <div class="counters-container">
+                <div class="counter-card touch-feedback">
+                    <h2>Días desde que te conocí</h2>
+                    <div class="counter-number" id="daysSinceMet">0</div>
+                    <p class="counter-date" id="dateMet">Fecha en que nos conocimos</p>
+                    <p>El día que apareciste de sorpresa en mi vida</p>
+                </div>
+                
+                <div class="counter-card touch-feedback">
+                    <h2>Días como mi novia</h2>
+                    <div class="counter-number" id="daysAsGirlfriend">0</div>
+                    <p class="counter-date" id="dateRelationship">Fecha en que comenzó nuestro amor</p>
+                    <p>Día que decidí que quiero estar a tu lado de forma indefinida</p>
+                </div>
+            </div>
+            
+            <div class="love-message">
+                <h3>Mensaje del día</h3>
+                <p class="message-text" id="dailyMessage">Cargando mensaje especial...</p>
+            </div>
+            
+            <!-- ANÁLISIS DE SENTIMIENTOS -->
+            <div class="analysis-section">
+                <h2>📈 Análisis de Nuestros Mensajes</h2>
+                
+                <div class="analysis-header">
+                    <h3>Total de mensajes analizados: 10,856</h3>
+                    <p>Período: 17 de octubre 2025 - 11 de enero 2026</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <h4>Distribución de Emociones</h4>
+                        <div class="emotion-bar">
+                            <span class="emotion-label">Neutral</span>
+                            <span class="bar-container"><div class="bar-fill neutral-bar"></div></span>
+                            <span class="emotion-value">82.8%</span>
+                        </div>
+                        <div class="emotion-bar">
+                            <span class="emotion-label">Felicidad</span>
+                            <span class="bar-container"><div class="bar-fill happy-bar"></div></span>
+                            <span class="emotion-value">11.4%</span>
+                        </div>
+                        <div class="emotion-bar">
+                            <span class="emotion-label">Tristeza</span>
+                            <span class="bar-container"><div class="bar-fill sad-bar"></div></span>
+                            <span class="emotion-value">2.7%</span>
+                        </div>
+                        <div class="emotion-bar">
+                            <span class="emotion-label">Sorpresa</span>
+                            <span class="bar-container"><div class="bar-fill surprise-bar"></div></span>
+                            <span class="emotion-value">2.5%</span>
+                        </div>
+                        <div class="emotion-bar">
+                            <span class="emotion-label">Enojo</span>
+                            <span class="bar-container"><div class="bar-fill angry-bar"></div></span>
+                            <span class="emotion-value">0.5%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <h4>Estadísticas por Autor</h4>
+                        <div class="author-stats">
+                            <div class="author-card">
+                                <h4>Daniela</h4>
+                                <p><strong>5,121 mensajes</strong> (47.2%)</p>
+                                <p>Emoción predominante: <strong>Neutral</strong></p>
+                                <p>Felicidad promedio: <strong style="color: #00b894;">0.17</strong></p>
+                                <p>Tristeza promedio: <strong style="color: #6c5ce7;">0.05</strong></p>
+                            </div>
+                            <div class="author-card">
+                                <h4>Aaron Choque</h4>
+                                <p><strong>5,735 mensajes</strong> (52.8%)</p>
+                                <p>Emoción predominante: <strong>Neutral</strong></p>
+                                <p>Felicidad promedio: <strong style="color: #00b894;">0.15</strong></p>
+                                <p>Tristeza promedio: <strong style="color: #6c5ce7;">0.03</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TODOS LOS MENSAJES FELICES -->
+                <div class="highlight-box">
+                    <h4>🎉 Top 5 Mensajes Más Felices</h4>
+                    <ul class="message-list">
+                        <li class="message-item touch-feedback">
+                            <div class="message-header">
+                                <span>📅 19/10/2025 23:26 | 👤 Daniela</span>
+                                <span class="emoji-score happy-score">😊 1.00</span>
+                            </div>
+                            <div class="message-content">"Uffff pues son los que me hacen reír cada día, con los estudio, con los que salgo a comer (cuando co...)"</div>
+                        </li>
+                        <li class="message-item touch-feedback">
+                            <div class="message-header">
+                                <span>📅 21/10/2025 14:04 | 👤 Daniela</span>
+                                <span class="emoji-score happy-score">😊 1.00</span>
+                            </div>
+                            <div class="message-content">"Bien bien bien, estoy felizz :D"</div>
+                        </li>
+                        <li class="message-item touch-feedback">
+                            <div class="message-header">
+                                <span>📅 16/12/2025 22:35 | 👤 Aaron Choque</span>
+                                <span class="emoji-score happy-score">😊 0.99</span>
+                            </div>
+                            <div class="message-content">"Gracias una vez más por el regalo me encantó mucho"</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- TENDENCIAS TEMPORALES -->
+                <div class="highlight-box">
+                    <h4>📊 Tendencias Temporales</h4>
+                    <div class="trends-grid">
+                        <div class="trend-card touch-feedback">
+                            <h5>📆 Día Más Feliz</h5>
+                            <p><strong>15/11/2025</strong></p>
+                            <p style="color: #00b894; font-weight: bold;">Felicidad: 0.43</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>📆 Día Más Triste</h5>
+                            <p><strong>05/12/2025</strong></p>
+                            <p style="color: #6c5ce7; font-weight: bold;">Tristeza: 0.09</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>⏰ Hora Más Feliz</h5>
+                            <p><strong>7:00 AM</strong></p>
+                            <p>El amor madruga contigo</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>📈 Felicidad</h5>
+                            <p><strong>0.16</strong></p>
+                            <p>Promedio total</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RESUMEN DE EMOCIONES -->
+                <div class="highlight-box">
+                    <h4>💭 Resumen de Emociones</h4>
+                    <div class="trends-grid">
+                        <div class="trend-card touch-feedback">
+                            <h5>😊 Felicidad</h5>
+                            <p><strong>1,234</strong></p>
+                            <p>11.4% mensajes</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>😢 Tristeza</h5>
+                            <p><strong>298</strong></p>
+                            <p>2.7% mensajes</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>😠 Enojo</h5>
+                            <p><strong>49</strong></p>
+                            <p>0.5% mensajes</p>
+                        </div>
+                        <div class="trend-card touch-feedback">
+                            <h5>😯 Sorpresas</h5>
+                            <p><strong>267</strong></p>
+                            <p>2.5% mensajes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PESTAÑA PARA TI -->
+        <div id="para-ti" class="tab-content">
+            <div class="love-letter-section">
+                <h2>Mi Carta para Ti</h2>
+                <div class="letter-content">
+Mi Querida Daniela,
+
+El día que te conocí nunca me imaginé que te convertirías en una persona capaz de pintar los días de mi vida con felicidad, emoción y cariño.
+
+Aunque nos tengamos poco tiempo de conocernos, te volviste una de las personas más importantes en mi vida. No me imagino un día sin recibir un buen día por parte tuya.
+
+Te adueñaste de un sector de mi cabeza, ya que te pienso cada día, y conquistaste mi corazón con tus ocurrencias, con tu inteligencia, tu orgullo y sobre todo por tu actitud de querer aprender todo.
+                </div>
+                <div class="letter-signature">
+                    Con todo mi amor,<br>
+                    Para siempre tuyo
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Hecho con <span class="heart">❤️</span> para la persona más especial de mi vida</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fechas importantes
+        const dateMet = new Date('2025-10-18');
+        const dateRelationship = new Date('2026-01-04');
+        
+        // Mensajes bonitos aleatorios
+        const loveMessages = [
+            "Eres la razón por la que mi corazón late más fuerte cada día.",
+            "Tu sonrisa es mi lugar favorito en el mundo entero.",
+            "Contigo, cada día ordinario se convierte en una aventura extraordinaria.",
+            "Eres el sueño que nunca supe que tenía hasta que te conocí.",
+            "En tus ojos encontré el hogar que mi alma siempre buscó.",
+            "Eres la mejor decisión que he tomado en toda mi vida.",
+            "Cada momento contigo es un tesoro que guardo en mi corazón.",
+            "Eres mi refugio seguro en un mundo caótico.",
+            "Contigo, hasta el silencio es una conversación hermosa.",
+            "Eres mi persona favorita en este universo infinito."
+        ];
+        
+        // Sistema de pestañas optimizado para touch
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase active de todas las pestañas y contenidos
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Añadir clase active a la pestaña clickeada
+                    this.classList.add('active');
+                    
+                    // Mostrar el contenido correspondiente
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Scroll suave al inicio del contenido
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: document.getElementById(tabId).offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                });
+            });
+        }
+        
+        // Calcular días desde que se conocieron
+        function calculateDaysSince(date) {
+            const today = new Date();
+            const timeDiff = today.getTime() - date.getTime();
+            return Math.floor(timeDiff / (1000 * 3600 * 24));
+        }
+        
+        // Actualizar contadores
+        function updateCounters() {
+            const daysSinceMet = calculateDaysSince(dateMet);
+            const daysAsGirlfriend = calculateDaysSince(dateRelationship);
+            
+            document.getElementById('daysSinceMet').textContent = daysSinceMet;
+            document.getElementById('daysAsGirlfriend').textContent = daysAsGirlfriend;
+            
+            // Formatear fechas
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateMet').textContent = `Desde el ${dateMet.toLocaleDateString('es-ES', options)}`;
+            document.getElementById('dateRelationship').textContent = `Desde el ${dateRelationship.toLocaleDateString('es-ES', options)}`;
+            
+            // Mostrar mensaje aleatorio
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            document.getElementById('dailyMessage').textContent = randomMessage;
+        }
+        
+        // Inicializar página con optimizaciones para mobile
+        window.onload = function() {
+            // Prevenir zoom en formularios
+            document.addEventListener('touchstart', function(e) {
+                if(e.target.type === 'number') {
+                    e.target.blur();
+                }
+            });
+            
+            setupTabs();
+            updateCounters();
+            
+            // Optimizar para dispositivos móviles
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+                
+                // Mejorar rendimiento en scroll
+                let scrollTimeout;
+                window.addEventListener('scroll', function() {
+                    clearTimeout(scrollTimeout);
+                    document.body.classList.add('scrolling');
+                    scrollTimeout = setTimeout(function() {
+                        document.body.classList.remove('scrolling');
+                    }, 100);
+                });
+            }
+            
+            // Actualizar contadores automáticamente cada hora
+            setInterval(updateCounters, 3600000);
+        };
+        
+        // Prevenir zoom en iOS
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
